@@ -26,7 +26,7 @@ const TabIcon = ({ icon, color, name, focused }: iconProps) => {
         tintColor={color}
         className='w-5 h-5'
       ></Image>
-      <Text className={`${focused?"font-psemibold":'font-pregular'} text-xs`}>
+      <Text className={`${focused?"font-psemibold":'font-pregular'} text-xs`} style={{color:color}}>
         {name}
       </Text>
     </View>
@@ -42,7 +42,12 @@ export default function TabLayout() {
     <>
       <Tabs
       screenOptions={{
-        tabBarShowLabel:false
+        tabBarShowLabel:false,
+        // tabBarActiveTintColor:" #ffa001",
+        tabBarInactiveTintColor:"#626274",
+        tabBarStyle:{
+          height:84
+        }
       }}
       >
         <Tabs.Screen
@@ -50,6 +55,8 @@ export default function TabLayout() {
           options={{
             title: "Home",
             headerShown: false,
+            tabBarActiveTintColor:"#FF5A5F",
+            tabBarInactiveTintColor:"#9191a1",
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.home}
@@ -65,6 +72,8 @@ export default function TabLayout() {
           options={{
             title: "Bookmark",
             headerShown: false,
+            tabBarActiveTintColor:"#FF5A5F",
+            tabBarInactiveTintColor:"#9191a1",
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.bookmark}
@@ -80,6 +89,8 @@ export default function TabLayout() {
           options={{
             title: "Create",
             headerShown: false,
+            tabBarActiveTintColor:"#FF5A5F",
+            tabBarInactiveTintColor:"#9191a1",
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.upload}
@@ -95,6 +106,8 @@ export default function TabLayout() {
           options={{
             title: "Profile",
             headerShown: false,
+            tabBarActiveTintColor:"#FF5A5F",
+            tabBarInactiveTintColor:"#9191a1",
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.profile}

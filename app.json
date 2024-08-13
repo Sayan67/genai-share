@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.GenAIShare"
+      "bundleIdentifier": "com.anonymous.GenAIShare",
+      "package":"com.sayan.vidcraft"
     },
     "android": {
       "adaptiveIcon": {
