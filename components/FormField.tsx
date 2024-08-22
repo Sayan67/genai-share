@@ -19,6 +19,7 @@ const FormField = ({ title, placeholder, handleTextChange, value,keyboardType }:
             <Text className='text-base font-pmedium'>{title}</Text>
             <View className='bg-neutral-200/70 border border-neutral-300 rounded-lg py-2 pl-4 pr-6 justify-between flex-row items-center relative focus:border-primary'>
                 <TextInput
+                    autoCapitalize='none'
                     value={value}
                     placeholder={placeholder}
                     className='placeholder:text-lg h-10 w-full '

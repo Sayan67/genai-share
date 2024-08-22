@@ -1,10 +1,11 @@
-import { Image, ScrollView, Text, View } from 'react-native'
+import { Alert, Image, ScrollView, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import images from '@/constants/images'
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { createUser } from '@/lib/appwrite'
 
 
 
@@ -13,15 +14,30 @@ const SignUp = () => {
     {
       email: '',
       password: '',
-      username:''
+      username: ''
     }
   )
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const submitForm = ()=>{
+  const submitForm = async () => {
+    if (!form.email || !form.password || !form.username) {
+      Alert.alert('Error, please fill all the fields.')
+    }
+    console.log(form);
+
     setIsSubmitting(true)
-    setTimeout(()=>{
-      setIsSubmitting(false)
-    },2000)
+    try {
+      const result = await createUser(form.email, form.password, form.username);
+      //store the result  to a global context using contrext
+      if (result) {
+        router.replace('/home');
+      }
+    } catch (error: any) {
+      Alert.alert('Error: ', error.message)
+    } finally {
+      setIsSubmitting(false);
+      setForm({ email: '', password: '', username: '' });
+    }
+
   }
   return (
     <SafeAreaView className='h-full'>
@@ -38,7 +54,7 @@ const SignUp = () => {
             <FormField title='Username' handleTextChange={(e) => setForm({ ...form, username: e })} placeholder='Enter your username' />
             <FormField title='Email' keyboardType='email-address' handleTextChange={(e) => setForm({ ...form, email: e })} placeholder='Enter your email' />
             <FormField title='Password' handleTextChange={(e) => setForm({ ...form, password: e })} placeholder='Enter your password' />
-            <CustomButton title='Sign Up' handlePress={submitForm} containerStyle='items-center' isLoading={isSubmitting}/>
+            <CustomButton title='Sign Up' handlePress={submitForm} containerStyle='items-center' isLoading={isSubmitting} />
           </View>
           <View className='items-center'>
             <Text className='text-base mt-4'>Already have an account? <Link href={'/(auth)/signin'} className=' font-pmedium text-primary'>Sign In</Link></Text>

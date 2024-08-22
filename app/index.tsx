@@ -1,12 +1,27 @@
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image, Button } from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import React from 'react'
-import { Link, router } from 'expo-router'
+import { Link, Redirect, router } from 'expo-router'
 import images from '@/constants/images'
 import CustomButton from '@/components/CustomButton'
+import { useAuth0 } from 'react-native-auth0'
+
+
+  
 
 
 const index = () => {
+  const {user,isLoading,error,authorize} = useAuth0();
+  const onPress = async () => {
+    try {
+      await authorize({ redirectUrl: "com.anonymous.GenAIShare.auth0://dev-mxdtckorexnxv6qj.us.auth0.com/ios/com.anonymous.GenAIShare" });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  if(isLoading) return <Text>Loading...</Text>
+  if(error) return <Text>Error : {error.message}</Text>
+  if(user) return <Redirect href={'/(tabs)/home'}/>
   return (
     <SafeAreaView className='h-full'>
       <Link href={'/(tabs)/home'}>Tabs Home</Link>
@@ -26,7 +41,7 @@ const index = () => {
           </View>
           <Text className='text-center text-sm mt-7'>Where creative AI meets people : embark on a journey of limitless exploration with Vidcraft</Text>
           <CustomButton
-          handlePress={()=>router.push('/signin')} 
+          handlePress={onPress} 
           title='Get started' containerStyle='w-full items-center'/>
         </View>
       </ScrollView>
